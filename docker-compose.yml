@@ -1,0 +1,108 @@
+version: '3'
+
+services:
+  app:
+    container_name: hotels-api-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+      - sphinx
+    environment:
+      - SYMFONY_ENV=dev
+    command: sh -c "php-fpm"
+    volumes:
+      - app-web:/srv/api-platform:rw
+      - ./web/uploads:/srv/api-platform/web/uploads:rw
+      - ./var/cache:/srv/api-platform/var/cache:rw
+      - ./var/logs:/srv/api-platform/var/logs:rw
+      - ./var/sessions:/srv/api-platform/var/sessions:rw
+    networks:
+      - default
+  db:
+    container_name: hotels-api-db
+    image: 'mysql:5.7'
+    environment:
+     - MYSQL_ROOT_PASSWORD=hotels
+     - MYSQL_DATABASE=hotels
+     - MYSQL_USER=hotels
+     - MYSQL_PASSWORD=hotels
+    ports:
+      - '9082:3306'
+    volumes:
+      - db-data:/var/lib/mysql:rw
+    networks:
+      - default
+  sphinx:
+     build:
+       context: ./docker/sphinx/
+       dockerfile: Dockerfile
+     container_name: hotels-api-sphinx
+     depends_on:
+       - db
+     volumes:
+       - ./docker/sphinx/conf:/etc/sphinx/conf:rw
+       - 'sphinx-data:/data/'
+     command: sh -c "sleep 10 && ln -sf /etc/sphinx/conf/sphinx.conf /etc/sphinx/sphinx.conf && indexer --all && searchd --nodetach"
+     networks:
+       - default
+  nginx:
+    container_name: hotels-api-nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./web:/srv/api-platform/web:ro
+    ports:
+      - "9081:80"
+  imaginary:
+    container_name: hotels-api-imaginary
+    build:
+      context: .
+      dockerfile: ./docker/imaginary/Dockerfile
+    ports:
+      - "8088:8088"
+    environment:
+      - PORT=8088
+    command: -concurrency 50 -enable-url-source -mount /biglion/uploads/
+    volumes:
+      - ./web/uploads:/biglion/uploads:ro
+    depends_on:
+      - app
+      - nginx
+  varnish:
+    container_name: hotels-api-varnish
+    build:
+      context: ./docker/varnish
+      dockerfile: ./Dockerfile
+    depends_on:
+      - app
+      - nginx
+    volumes:
+      - ./docker/varnish/conf:/etc/varnish:ro
+    ports:
+      - "9080:80"
+  rabbitmq:
+    container_name: hotels-api-rmq
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    environment:
+        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
+        RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+        - "15672:15672"
+        - "5672:5672"
+    labels:
+        NAME: "rabbitmq"
+    volumes:
+        - "./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+
+volumes:
+  app-web:
+    external: true
+  db-data: {}
+  sphinx-data: {}

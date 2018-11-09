@@ -1,0 +1,9 @@
+---
+
+- name: remove composer
+  apt:
+    name: composer
+    state: absent
+
+- name: install composer from getcomposer.org
+  shell: "curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer"

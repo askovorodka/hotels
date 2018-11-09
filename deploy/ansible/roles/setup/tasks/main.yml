@@ -1,0 +1,48 @@
+---
+
+- name: install config configs
+  template:
+    src: parameters.yml
+    dest: /biglion/symfony/{{ deploy_version }}/app/config/parameters.yml
+
+- name: run composer install
+  shell: "cd /biglion/symfony/{{ deploy_version }} && composer install --no-interaction"
+
+- name: chmod fix
+  shell: "chmod -R 777 /biglion/symfony/{{ deploy_version }}/var"
+
+- name: Creates jwt directory
+  file:
+    path: /biglion/symfony/{{ deploy_version }}/var/jwt
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+
+- name: copy private key
+  copy:
+    src: private.pem
+    dest: /biglion/symfony/{{ deploy_version }}/var/jwt/private.pem
+
+- name: copy public key
+  copy:
+    src: public.pem
+    dest: /biglion/symfony/{{ deploy_version }}/var/jwt/public.pem
+
+- name: remove default upload folder
+  shell: "rm -rf /biglion/symfony/{{ deploy_version }}/web/uploads"
+
+- name: remove default icons folder
+  shell: "rm -rf /biglion/symfony/{{ deploy_version }}/web/icons"
+
+- name: make upload link
+  file:
+    src: "/biglion/uploads"
+    dest: "/biglion/symfony/{{ deploy_version }}/web/uploads"
+    state: link
+
+- name: make icons link
+  file:
+    src: "/biglion/icons"
+    dest: "/biglion/symfony/{{ deploy_version }}/web/icons"
+    state: link

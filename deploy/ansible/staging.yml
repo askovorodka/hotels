@@ -1,0 +1,17 @@
+---
+- hosts: local
+  remote_user: root
+  roles:
+    - setup
+    - pack
+  vars:
+    domain: api-hotels.biglion.ru:81
+    api_domain: https://api-hotels.biglion.ru
+    varnish_domain: https://api-hotels.biglion.ru
+    cors_domain: '*'
+    mysql:
+      port: 3306
+      user: "hotel"
+      db: "hotel"
+      host: "hotel.db.teamber"
+      pass: "bhus3CubtaVEET*EIl183"

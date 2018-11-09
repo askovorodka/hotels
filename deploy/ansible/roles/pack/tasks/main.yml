@@ -1,0 +1,5 @@
+---
+
+- name: pack project version
+  shell: "tar -zcvf /biglion/staging/symfony/{{ deploy_version }}.tar.gz /biglion/symfony/{{ deploy_version }}"
+

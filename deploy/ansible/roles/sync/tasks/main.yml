@@ -1,0 +1,26 @@
+- name: copy sql command file
+  copy:
+    src: dropLocalDB.sql
+    dest: /biglion/dropLocalDB.sql
+
+- name: drop internal db
+  shell: "mysql --user='{{ mysql.local.user }}' --password='{{ mysql.local.pass }}' --host='localhost' < /biglion/dropLocalDB.sql"
+
+- name: copy external db
+  shell: "mysqldump --user='{{ mysql.prod.user }}' --password='{{ mysql.prod.pass }}' --host='{{ mysql.prod.host }}' {{ mysql.prod.db }} > /biglion/dumps/{{ deploy_version }}_dump.sql"
+
+- name: install internal db
+  shell: "mysql --user='{{ mysql.local.user }}' --password='{{ mysql.local.pass }}' --host='localhost' --database='{{ mysql.local.db }}' < /biglion/dumps/{{ deploy_version }}_dump.sql"
+
+#- name: clear migrations
+#  shell: "rm -rf /biglion/symfony/{{ deploy_version }}/migrations/*"
+#
+#- name: run migrations diff
+#  shell: "php /biglion/symfony/{{ deploy_version }}/doctrine.php migrations:diff -n"
+
+- name: run migration migrate
+  shell: "php /biglion/symfony/{{ deploy_version }}/bin/console doctrine:migrations:migrate -n --allow-no-migration"
+
+#- name: reindex test
+#  shell: indexer --all --rotate
+#

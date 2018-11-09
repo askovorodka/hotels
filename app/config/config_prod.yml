@@ -1,0 +1,35 @@
+imports:
+    - { resource: config.yml }
+
+doctrine:
+    orm:
+        metadata_cache_driver: apcu
+        result_cache_driver: apcu
+        query_cache_driver: apcu
+
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+        console:
+            type: console
+            process_psr_3_messages: false
+            handler: nested
+        nested:
+            type: syslog
+            ident: 'travel-api'
+            level: error
+
+api_platform:
+    enable_swagger_ui: false
+    formats:
+        jsonhal:  ['application/hal+json']
+        jsonld:   ['application/ld+json']
+        json:     ['application/json']
+
+sentry:
+    dsn: "http://2282a2d954f94aecafcd16b205aa5b7d:57fe84b70d254da3857dac1da91b2cf1@sentry.kube.bigln.ru/9"
+    options:
+        environment: 'prod'

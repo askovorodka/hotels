@@ -1,0 +1,9 @@
+---
+- hosts: local
+  remote_user: root
+  roles:
+    - nginx
+  vars:
+    api_domain: http://api.hotels.bigln.ru
+    varnish_domain: http://hotels.bigln.ru:81
+    cors_domain: hotels.bigln.ru api.hotels.bigln.ru

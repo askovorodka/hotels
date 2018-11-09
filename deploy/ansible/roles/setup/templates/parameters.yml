@@ -1,0 +1,34 @@
+parameters:
+    database_host: {{ mysql.host }}
+    database_port: {{ mysql.port }}
+    database_name: {{ mysql.db }}
+    database_user: {{ mysql.user }}
+    database_password: '{{ mysql.pass }}'
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: a.malikov@biglion.tech
+    mailer_password: ~
+    secret: sdfgy083h9o8yer0hg9souiehr08wo3iug071ASDF
+    cors_allow_origin: "{{cors_domain}}"
+    varnish_urls: [{{domain}}]
+    jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem'
+    jwt_public_key_path: '%kernel.root_dir%/../var/jwt/public.pem'
+    jwt_key_pass_phrase: hotels
+    jwt_token_ttl: 86400
+    uploads_directory: '%kernel.root_dir%/../web/uploads'
+        
+    amqp_host: amqp-broker
+    amqp_port: 5672
+    amqp_user: rabbit_manager
+    amqp_pass: kQzsNYct4ft3QUj88KLf
+
+    photo_link_prefix: 'https://st.biglion.ru/biglion'
+    icons_link_prefix: 'https://api-hotels.biglion.ru/icons/'
+
+    sphinx_host: sphinx
+    sphinx_port: 9306
+
+    #business parameters
+    hotels_priority_areas:
+        - 'Москва'
+        - 'Московская область'

@@ -1,0 +1,32 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: db
+    database_port: 3306
+    database_name: hotels
+    database_user: hotels
+    database_password: hotels
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: user@example.ru
+    mailer_password: password
+    secret: ThisTokenIsNotSoSecretChangeIt
+    cors_allow_origin: '*'
+    varnish_urls:
+        - 'http://varnish'
+    uploads_directory: '%kernel.root_dir%/../web/uploads'
+    uploads_fonts_directory: '%kernel.root_dir%/../web/icons'
+    jwt_private_key_path: '%kernel.root_dir%/../var/jwt/private.pem'
+    jwt_public_key_path: '%kernel.root_dir%/../var/jwt/public.pem'
+    jwt_key_pass_phrase: hotels
+    jwt_token_ttl: 3600
+    amqp_host: 192.168.99.100
+    amqp_port: 31066
+    amqp_user: guest
+    amqp_pass: guest
+    photo_link_prefix: 'http://localhost:9081/biglion'
+    icons_link_prefix: 'http://localhost:9081/icons/'
+    sphinx_host: sphinx
+    sphinx_port: 9306
+    hotels_priority_areas:
+        - Москва
+        - 'Московская область'

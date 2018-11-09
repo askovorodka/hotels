@@ -1,0 +1,12 @@
+---
+
+- name: copy varnish config
+  template:
+    src: default.vcl
+    dist: /etc/varnish/default.vcl
+
+- name: copy varnish start.sh
+  template:
+    src: start.sh
+    dist: /biglion/varnish_start.sh
+

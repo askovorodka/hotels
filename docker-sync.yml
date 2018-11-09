@@ -1,0 +1,9 @@
+version: '2'
+options:
+  verbose: true
+  max-attempt: 30
+syncs:  
+  app-web:
+    src: './'
+    sync_strategy: 'native_osx'
+    sync_userid: '33'

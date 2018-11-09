@@ -1,0 +1,7 @@
+---
+
+- name: template config
+  template:
+    src: symfony.conf
+    dest: /etc/nginx/sites-enabled/hotels_symfony.conf
+  notify: reload nginx

@@ -1,0 +1,57 @@
+### Data providers ###
+
+# Notice
+#
+# Указанный parent необходим для инжекта массива $collectionExtensions в __constructor
+# @see \ApiPlatform\Core\Bridge\Symfony\Bundle\DependencyInjection\Compiler\DoctrineQueryExtensionPass
+
+services:
+    _defaults:
+        tags: [ {name: "api_platform.collection_data_provider"} ]
+
+    ######## Dashboard ########
+
+    AppBundle\DataProvider\Dashboard\DealOfferPricesWithoutRoomsCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\DealOffersWithoutHotelCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\HotelsDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\HotelsWithoutAmenitiesCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\HotelsWithoutPhotosCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\HotelsWithoutRoomsCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\RoomsForConnectDealOfferPriceCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\Dashboard\DealOffersWithHotelsCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    ##### Hotels Catalog #####
+    AppBundle\DataProvider\HotelsCatalog\HotelsSearchCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+
+    AppBundle\DataProvider\HotelsCatalog\HotelSearchMobileCollectionDataProvider:
+        autowire: true
+        parent: api_platform.doctrine.orm.collection_data_provider
+        arguments:
+            $photoLinkPrefix: '%photo_link_prefix%'
+            $iconsLinkPrefix: '%icons_link_prefix%'
+            

@@ -1,0 +1,16 @@
+---
+- hosts: local
+  remote_user: root
+  roles:
+    - setup
+  vars:
+    domain: api.hotels.bigln.ru:81
+    api_domain: http://api.hotels.bigln.ru
+    varnish_domain: http://api.hotels.bigln.ru
+    cors_domain: '*'
+    mysql:
+      port: 3306
+      user: "hotels"
+      db: "hotel"
+      host: "localhost"
+      pass: "hotels"

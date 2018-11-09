@@ -1,0 +1,20 @@
+---
+
+- name: unpack folder
+  working_dir: /
+  shell: "cd / && tar -zxvf /biglion/symfony/{{ deploy_version }}.tar.gz"
+
+- name: build hotels list
+  shell: "cd /biglion/symfony/{{ deploy_version }} && ./bin/console build-hotels-list"
+
+- name: remove old link
+  shell: "unlink /biglion/symfony/master"
+
+- name: make new link
+  file:
+    src: "/biglion/symfony/{{ deploy_version }}"
+    dest: "/biglion/symfony/master"
+    state: link
+
+- name: reindex
+  shell: "indexer --all --rotate"

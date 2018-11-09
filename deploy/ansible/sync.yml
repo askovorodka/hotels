@@ -1,0 +1,19 @@
+---
+- hosts: local
+  remote_user: root
+  roles:
+    - sync
+  vars:
+    mysql:
+      local:
+        port: 3306
+        user: "hotels"
+        db: "hotel"
+        host: "localhost"
+        pass: "hotels"
+      prod:
+        port: 3306
+        user: "hotel"
+        db: "hotel"
+        host: "hotel.db.teamber"
+        pass: "bhus3CubtaVEET*EIl183"
